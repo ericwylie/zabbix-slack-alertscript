@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Slack incoming web-hook URL and user name
-url= 'CHANGEME'		# example: https://hooks.slack.com/services/QW3R7Y/D34DC0D3/BCADFGabcDEF123
+url='https://chat.googleapis.com/v1/spaces/AAAAb9SjVtg/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=DchsM9XHz9BAXBp1sjFhyh_7xBOhHQ34SpDs6zUDCNE%3D'		# example: https://hooks.slack.com/services/QW3R7Y/D34DC0D3/BCADFGabcDEF123
 username='Zabbix'
 
 ## Values received by this script:
@@ -16,16 +16,16 @@ to="$1"
 subject="$2"
 
 # Change message emoji depending on the subject - smile (RECOVERY/OK), frowning (PROBLEM), or ghost (for everything else)
-recoversub='^RECOVER(Y|ED)?$'
-if [[ "$subject" =~ ${recoversub} ]]; then
-	emoji=':smile:'
-elif [ "$subject" == 'OK' ]; then
-	emoji=':smile:'
-elif [ "$subject" == 'PROBLEM' ]; then
-	emoji=':frowning:'
-else
-	emoji=':ghost:'
-fi
+# recoversub='^RECOVER(Y|ED)?$'
+# if [[ "$subject" =~ ${recoversub} ]]; then
+# 	emoji=':smile:'
+# elif [ "$subject" == 'OK' ]; then
+# 	emoji=':smile:'
+# elif [ "$subject" == 'PROBLEM' ]; then
+# 	emoji=':frowning:'
+# else
+# 	emoji=':ghost:'
+# fi
 
 # The message that we want to send to Slack is the "subject" value ($2 / $subject - that we got earlier)
 #  followed by the message that Zabbix actually sent us ($3)
@@ -40,5 +40,10 @@ if [[ "$proxy" != "" ]] ; then
 fi
 
 # Build our JSON payload and send it as a POST request to the Slack incoming web-hook URL
-payload="payload={\"channel\": \"${to//\"/\\\"}\", \"username\": \"${username//\"/\\\"}\", \"text\": \"${message//\"/\\\"}\", \"icon_emoji\": \"${emoji}\"}"
-curl $proxy -m 5 --data-urlencode "${payload}" $url -A 'zabbix-slack-alertscript / https://github.com/ericoc/zabbix-slack-alertscript'
+ payload="payload={\"channel\": \"${to//\"/\\\"}\", \"username\": \"${username//\"/\\\"}\", \"text\": \"${message//\"/\\\"}\", \"icon_emoji\": \"${emoji}\"}"
+ curl $proxy -m 5 --data-urlencode "${payload}" $url -A 'zabbix-slack-alertscript / https://github.com/ericoc/zabbix-slack-alertscript'
+
+# Build the JSON payload for compatibility with Google Chat to be sent to the Chat webhook URL
+payload="{
+"text" :"LowPriorityZabbixAlertTriggered\n${message}"
+}"
