@@ -1,12 +1,13 @@
 from httplib2 import Http
 from json import dumps
+import sys
 
 #
 # Get Subject and Message information from Zabbix
 #
-subject="$2"
-body="$3"
-message= subject + " " + body
+subject=sys.argv[1]
+body=sys.argv[2]
+# message= subject + " " + body
 
 #
 # Send non-urgent Zabbix alerts to Hangouts Chat #OfficeTech Alerts
@@ -25,14 +26,14 @@ def main():
                 "widgets": [
                     {
                         "keyValue": {
-                            "topLabel": "Subject",
+                            "topLabel": "Severity",
                             "content": subject
                         }
                     },
                     {
                         "keyValue": {
-                            "topLabel": "Message",
-                            "content": message
+                            "topLabel": "Host",
+                            "content": body
                         }
                     },
                     {
