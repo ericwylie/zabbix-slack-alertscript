@@ -54,24 +54,6 @@ def main():
         }]
     }
 
-    #                         #"iconUrl": "https://assets.zabbix.com/img/newsletter/2016/icons/share-logo-z.png",
-    #                         "button": {
-    #                             "textButton": {
-    #                                 "text": "View Dashboard",
-    #                                 "onClick": {
-    #                                     "openLink": {
-    #                                         "url": "http://zabbix.in.customink.com/zabbix/zabbix.php?action=dashboard.view"
-    #                                     }
-    #                                 }
-    #                             }
-    #                         }
-    #                 }
-    #             }]
-    #         }]
-    #     }]
-    # }
-
-    
     message_headers = { 'Content-Type': 'application/json; charset=UTF-8'}
 
     http_obj = Http()
